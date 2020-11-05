@@ -74,6 +74,7 @@
 #include <xhyve/firmware/fbsd.h>
 #include <xhyve/firmware/bootrom.h>
 #include <xhyve/firmware/multiboot.h>
+#include <xhyve/firmware/macho.h>
 
 #ifdef HAVE_OCAML
 #include <caml/callback.h>
@@ -744,6 +745,8 @@ firmware_parse(const char *opt) {
 		fw_func = bootrom_load;
 	} else if (strncmp(fw, "multiboot", strlen("multiboot")) == 0) {
 		fw_func = multiboot;
+	} else if (strncmp(fw, "macho", strlen("macho")) == 0) {
+		fw_func = macho;
 	} else {
 		goto fail;
 	}
@@ -777,6 +780,8 @@ firmware_parse(const char *opt) {
 		ret = bootrom_init(opt1);
 	} else if (fw_func == multiboot) {
 		ret = multiboot_init(opt1, opt2, opt3);
+	} else if (fw_func == macho) {
+		ret = macho_init(opt1, opt2, opt3);
 	}
 	if (ret)
 		goto fail;

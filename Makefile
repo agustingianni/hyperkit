@@ -74,7 +74,8 @@ FIRMWARE_LIB_SRC := \
 	src/lib/firmware/bootrom.c \
 	src/lib/firmware/kexec.c \
 	src/lib/firmware/fbsd.c \
-	src/lib/firmware/multiboot.c
+	src/lib/firmware/multiboot.c \
+	src/lib/firmware/macho.c
 
 HYPERKIT_SRC := src/hyperkit.c
 

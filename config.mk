@@ -28,14 +28,13 @@ ENV := \
 ###############################################################################
 
 CFLAGS_OPT := \
-  -Os \
+  -O0 \
   -flto \
   -fstrict-aliasing
 
 # enable everything and then selectively disable some warnings
 CFLAGS_WARN := \
   -Weverything \
-  -Werror \
   -pedantic \
   \
   -Wno-dollar-in-identifier-extension \
@@ -62,6 +61,8 @@ CFLAGS := \
   -std=c11 \
   -fno-common \
   -fvisibility=hidden \
+  -fno-omit-frame-pointer \
+  -g \
   $(DEFINES) \
   $(CFLAGS_OPT) \
   $(CFLAGS_WARN) \
