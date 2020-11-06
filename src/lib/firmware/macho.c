@@ -15,10 +15,13 @@ static struct
 // OS memory layout
 //  0000_0000h: Zero page
 //  0000_1000h: GDT
-//  0000_2000h: Kernel
+//  0000_2000h: Stack.
+//  0010_0000h: Kernel
 #define GUEST_BASE_ZEROPAGE 0x00000000
 #define GUEST_BASE_GDT 0x00001000
-#define GUEST_BASE_KERNEL 0x00002000
+#define GUEST_BASE_STACK_BASE 0x00002000
+#define GUEST_BASE_STACK_TOP 0x00003000
+#define GUEST_BASE_KERNEL 0x00100000
 
 #define GUEST_SELECTOR_SIZE 8
 
@@ -101,7 +104,10 @@ macho(void)
     // 9. Set the address of RIP to the start of our code.
     xh_vm_set_register(0, VM_REG_GUEST_RIP, GUEST_BASE_KERNEL);
 
-    // 10. Read the kernel image into guest memory.
+    // 10. Set the address of RSP to our stack.
+    xh_vm_set_register(0, VM_REG_GUEST_RSP, GUEST_BASE_STACK_TOP);
+
+    // 11. Read the kernel image into guest memory.
     FILE *fd;
     if (!(fd = fopen(config.kernel, "r")))
     {
